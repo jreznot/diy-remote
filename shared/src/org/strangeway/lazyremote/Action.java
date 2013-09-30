@@ -23,51 +23,14 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server;
-
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.Configuration;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.strangeway.lazyremote.server.sys.ClasspathWebAppContext;
-import org.strangeway.lazyremote.server.sys.ClasspathWebXmlConfiguration;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+package org.strangeway.lazyremote;
 
 /**
  * @author Yuriy Artamonov
  */
-public class LazyRemoteServer {
+public class Action {
 
-    private static final List<String> publishedResources = Arrays.asList(
-            "/web.xml",
-            "/lazy-remote-spring.xml",
-            "/lazy-remote-web-spring.xml"
-    );
+    public String name = "";
 
-    public static void main(String[] args) {
-        // todo move port to properties
-        Server server = new Server(8080);
-
-        WebAppContext context = new ClasspathWebAppContext(new HashSet<String>(publishedResources));
-
-        context.setConfigurations(new Configuration[]{new ClasspathWebXmlConfiguration()});
-        context.setDescriptor("web.xml");
-        context.setResourceBase(".");
-        context.setContextPath("/");
-        context.setParentLoaderPriority(true);
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-
-        server.setHandler(context);
-
-        try {
-            server.start();
-            server.join();
-        } catch (Exception e) {
-            if (!(e instanceof InterruptedException)) {
-                System.out.print("Server stopped\n" + e.getMessage());
-            }
-        }
-    }
+    public String icon = "";
 }

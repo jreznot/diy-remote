@@ -23,51 +23,39 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server;
+package org.strangeway.lazyremote.server.sys;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.webapp.Configuration;
+import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.strangeway.lazyremote.server.sys.ClasspathWebAppContext;
-import org.strangeway.lazyremote.server.sys.ClasspathWebXmlConfiguration;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Set;
 
 /**
  * @author Yuriy Artamonov
  */
-public class LazyRemoteServer {
+public class ClasspathWebAppContext extends WebAppContext {
 
-    private static final List<String> publishedResources = Arrays.asList(
-            "/web.xml",
-            "/lazy-remote-spring.xml",
-            "/lazy-remote-web-spring.xml"
-    );
+    public Set<String> publishedClasspathResources;
 
-    public static void main(String[] args) {
-        // todo move port to properties
-        Server server = new Server(8080);
+    public ClasspathWebAppContext(Set<String> publishedClasspathResources) {
+        this.publishedClasspathResources = publishedClasspathResources;
+    }
 
-        WebAppContext context = new ClasspathWebAppContext(new HashSet<String>(publishedResources));
+    @Override
+    public Resource getResource(String uriInContext) throws MalformedURLException {
+        if (publishedClasspathResources.contains(uriInContext) && getClassLoader() != null) {
+            try {
+                if (uriInContext.startsWith("/"))
+                    uriInContext = uriInContext.substring(1);
 
-        context.setConfigurations(new Configuration[]{new ClasspathWebXmlConfiguration()});
-        context.setDescriptor("web.xml");
-        context.setResourceBase(".");
-        context.setContextPath("/");
-        context.setParentLoaderPriority(true);
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-
-        server.setHandler(context);
-
-        try {
-            server.start();
-            server.join();
-        } catch (Exception e) {
-            if (!(e instanceof InterruptedException)) {
-                System.out.print("Server stopped\n" + e.getMessage());
+                return Resource.newResource(getClassLoader().getResource(uriInContext));
+            } catch (IOException e) {
+                throw new RuntimeException("Could not found published resource in classpath", e);
             }
         }
+
+        return super.getResource(uriInContext);
     }
 }

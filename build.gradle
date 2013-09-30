@@ -42,13 +42,35 @@ project(':shared') {
 project(':server') {
 	apply plugin: 'java'
 	apply plugin: 'idea'
-	
+    apply plugin: 'application'
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+            resources {
+                srcDir 'src'
+            }
+        }
+        test {
+            java {
+                srcDir 'test'
+            }
+            resources {
+                srcDir 'test'
+            }
+        }
+    }
+
 	dependencies {
 		compile project(':shared')
 		
 		testCompile 'org.testng:testng:6.8'
 
-		compile 'org.mortbay.jetty:jetty:6.1.26'
+        compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
+		compile 'org.eclipse.jetty:jetty-server:8.1.13.v20130916'
+		compile 'org.eclipse.jetty:jetty-webapp:8.1.13.v20130916'
 		compile 'com.google.code.gson:gson:2.2.4'
 
 		compile 'org.codehaus.groovy:groovy:2.1.7'
@@ -56,25 +78,8 @@ project(':server') {
 		compile 'org.apache.commons:commons-lang3:3.1'
 		compile 'commons-io:commons-io:2.4'
 	}
-	
-	sourceSets {
-	    main {
-	        java {
-	            srcDir 'src'
-	        }
-	        resources {
-	            srcDir 'src'
-	        }
-	    }
-		test {
-	        java {
-	            srcDir 'test'
-	        }
-	        resources {
-	            srcDir 'test'
-	        }
-	    }
-	}
+
+    mainClassName = 'org.strangeway.lazyremote.server.LazyRemoteServer'
 }
 
 project(':client') {
