@@ -28,11 +28,7 @@ package org.strangeway.lazyremote;
 /**
  * @author Yuriy Artamonov
  */
-public class Action {
+public class Result {
 
-    public String name = "";
-
-    public String description = "";
-
-    public String icon = "";
+    public String message = "";
 }

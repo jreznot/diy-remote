@@ -82,6 +82,68 @@ project(':server') {
     mainClassName = 'org.strangeway.lazyremote.server.LazyRemoteServer'
 }
 
+project(':integration:vlc') {
+    apply plugin: 'groovy'
+    apply plugin: 'idea'
+
+    sourceSets {
+        main {
+            groovy {
+                srcDirs = ['src']
+            }
+        }
+
+        test {
+            groovy {
+                srcDirs = ['test']
+            }
+        }
+    }
+
+    dependencies {
+        compile 'org.codehaus.groovy:groovy:2.1.7'
+    }
+
+    task scriptsZip(type: Zip) {
+       from file('src')
+    }
+
+    artifacts {
+        archives scriptsZip
+    }
+}
+
+project(':integration:windows') {
+    apply plugin: 'groovy'
+    apply plugin: 'idea'
+
+    sourceSets {
+        main {
+            groovy {
+                srcDirs = ['src']
+            }
+        }
+
+        test {
+            groovy {
+                srcDirs = ['test']
+            }
+        }
+    }
+
+    dependencies {
+        compile 'org.codehaus.groovy:groovy:2.1.7'
+    }
+
+    task scriptsZip(type: Zip) {
+        from file('src')
+    }
+
+    artifacts {
+        archives scriptsZip
+    }
+}
+
 project(':client') {
 	apply plugin: 'android'
 	apply plugin: 'idea'

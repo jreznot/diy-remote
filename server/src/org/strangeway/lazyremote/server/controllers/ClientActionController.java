@@ -25,13 +25,16 @@
 
 package org.strangeway.lazyremote.server.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.strangeway.lazyremote.Action;
+import org.strangeway.lazyremote.Command;
+import org.strangeway.lazyremote.Result;
+import org.strangeway.lazyremote.server.CommandExecutor;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,9 +44,26 @@ import java.util.List;
 @RequestMapping("action")
 public class ClientActionController {
 
+    @Autowired
+    private CommandExecutor executor;
+
     @RequestMapping(value = "list", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Action> list() {
-        return Collections.emptyList();
+        return executor.getActions();
+    }
+
+    @RequestMapping(value = "execute",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Result execute(Command command) {
+        return executor.execute(command);
+    }
+
+    @RequestMapping(value = "status", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Result status() {
+        return executor.getStatus();
     }
 }

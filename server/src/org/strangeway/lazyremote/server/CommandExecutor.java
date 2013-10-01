@@ -23,16 +23,24 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote;
+package org.strangeway.lazyremote.server;
+
+import org.strangeway.lazyremote.Action;
+import org.strangeway.lazyremote.Command;
+import org.strangeway.lazyremote.Result;
+
+import java.util.List;
 
 /**
  * @author Yuriy Artamonov
  */
-public class Action {
+public interface CommandExecutor {
 
-    public String name = "";
+    String NAME = "commandExecutor";
 
-    public String description = "";
+    Result getStatus();
 
-    public String icon = "";
+    List<Action> getActions();
+
+    Result execute(Command command);
 }

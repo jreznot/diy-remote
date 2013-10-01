@@ -1,1 +1,1 @@
-include "shared", "server", "client"
+include 'shared', 'server', 'client', 'integration:vlc', 'integration:windows'

@@ -30,4 +30,5 @@ package org.strangeway.lazyremote;
  */
 public class Command {
 
+    public String actionId = "";
 }

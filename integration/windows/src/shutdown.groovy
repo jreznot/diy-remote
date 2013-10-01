@@ -23,16 +23,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote;
-
 /**
  * @author Yuriy Artamonov
  */
-public class Action {
 
-    public String name = "";
-
-    public String description = "";
-
-    public String icon = "";
+name: 'Shutdown'
+description: 'Shutdown PC'
+icon: 'shutdown.png'
+action: {
+    Runtime.getRuntime().exec("shutdown -s")
 }
