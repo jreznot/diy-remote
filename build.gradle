@@ -187,7 +187,7 @@ project(':client') {
     project.archivesBaseName = 'dyi-remote'
 	
 	android {
-		compileSdkVersion 10
+		compileSdkVersion 15
 		buildToolsVersion '18.0.1'
 		
 		sourceSets {

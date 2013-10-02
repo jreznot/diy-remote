@@ -25,5 +25,12 @@
   -->
 
 <resources>
-    <string name="app_name">DIY Remote</string>
+    <string name="app.name">DIY Remote</string>
+    <string name="app.description">Hand-made</string>
+
+    <string name="preferences.connection">Connection</string>
+
+    <string name="preferences.connection.url">URL</string>
+    <string name="preferences">Preferences</string>
+    <string name="preferences.connection.url.summary">Set connection URL of your PC</string>
 </resources>

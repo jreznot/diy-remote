@@ -25,64 +25,18 @@
 
 package org.strangeway.diyremote.client;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
+import android.preference.PreferenceActivity;
 import org.strangeway.diyremote.R;
 
 /**
  * @author Yuriy Artamonov
  */
-public class MainActivity extends Activity {
-
+public class PreferencesActivity extends PreferenceActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-
-        setContentView(R.layout.main);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        Context context = getApplicationContext();
-        SharedPreferences prefs =
-                PreferenceManager.getDefaultSharedPreferences(context);
-
-        if (!prefs.contains("connection.url")) {
-            // open preferences
-            Intent settingsActivity = new Intent(getBaseContext(),
-                    PreferencesActivity.class);
-            startActivity(settingsActivity);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_preferences:
-                Intent settingsActivity = new Intent(getBaseContext(),
-                        PreferencesActivity.class);
-                startActivity(settingsActivity);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        addPreferencesFromResource(R.xml.preferences);
     }
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright (c) 2013, DIY-Remote Contributors
   ~ All rights reserved.
@@ -24,21 +25,11 @@
   ~ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.strangeway.diyremote"
-          android:versionCode="1"
-          android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10"/>
-    <application android:label="@string/app.name"
-            android:icon="@drawable/app">
-        <activity android:name=".client.MainActivity"
-                  android:label="@string/app.name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".client.AboutActivity"/>
-        <activity android:name=".client.PreferencesActivity" android:label="@string/preferences"/>
-    </application>
-</manifest>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/action_preferences"
+            android:orderInCategory="100"
+            android:showAsAction="always"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/preferences"/>
+</menu>

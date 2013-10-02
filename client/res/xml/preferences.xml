@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ Copyright (c) 2013, DIY-Remote Contributors
   ~ All rights reserved.
-  ~
+  ~ 
   ~ Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
   ~ following conditions are met:
-  ~
+  ~ 
   ~ Redistributions of source code must retain the above copyright notice, this list of conditions
   ~ and the following disclaimer.
-  ~
+  ~ 
   ~ Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
   ~ disclaimer in the documentation and/or other materials provided with the distribution.
-  ~
+  ~ 
   ~ Neither the name of the StrangeWay.org nor the names of its contributors may be used to endorse or promote products
   ~ derived from this software without specific prior written permission.
-  ~
+  ~ 
   ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
   ~ INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
   ~ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
@@ -24,21 +25,11 @@
   ~ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.strangeway.diyremote"
-          android:versionCode="1"
-          android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10"/>
-    <application android:label="@string/app.name"
-            android:icon="@drawable/app">
-        <activity android:name=".client.MainActivity"
-                  android:label="@string/app.name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".client.AboutActivity"/>
-        <activity android:name=".client.PreferencesActivity" android:label="@string/preferences"/>
-    </application>
-</manifest>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/preferences.connection">
+        <EditTextPreference android:id="@+id/connectionUrlPref"
+                android:title="@string/preferences.connection.url"
+                android:key="connection.url"
+                android:summary="@string/preferences.connection.url.summary"/>
+    </PreferenceCategory>
+</PreferenceScreen>
