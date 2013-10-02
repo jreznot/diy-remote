@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,55 +23,24 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server.executors;
+package org.strangeway.diyremote.server;
 
-import groovy.lang.Closure;
-import org.apache.commons.lang3.StringUtils;
-import org.strangeway.lazyremote.Action;
-import org.strangeway.lazyremote.Command;
-import org.strangeway.lazyremote.Result;
-import org.strangeway.lazyremote.server.CommandExecutor;
+import org.strangeway.diyremote.Action;
+import org.strangeway.diyremote.Command;
+import org.strangeway.diyremote.Result;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Yuriy Artamonov
  */
-public class GroovyCommandExecutor implements CommandExecutor {
+public interface CommandExecutor {
 
-    private Map<Action, Closure<String>> actions = new HashMap<Action, Closure<String>>();
+    String NAME = "commandExecutor";
 
-    private Closure<String> statusProvider;
+    Result getStatus();
 
-    public GroovyCommandExecutor() {
-        // load actions from app directory
-    }
+    List<Action> getActions();
 
-    @Override
-    public Result getStatus() {
-        Result result = new Result();
-        result.message = statusProvider.call();
-        return result;
-    }
-
-    @Override
-    public List<Action> getActions() {
-        return new ArrayList<Action>(actions.keySet());
-    }
-
-    @Override
-    public Result execute(Command command) {
-        for (Action a : actions.keySet()) {
-            if (StringUtils.equals(a.name, command.actionId)) {
-                Result r = new Result();
-                r.message = actions.get(a).call();
-                return r;
-            }
-        }
-
-        return new Result();
-    }
+    Result execute(Command command);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,24 +23,39 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server;
+package org.strangeway.diyremote.server.sys;
 
-import org.strangeway.lazyremote.Action;
-import org.strangeway.lazyremote.Command;
-import org.strangeway.lazyremote.Result;
+import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.webapp.WebAppContext;
 
-import java.util.List;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Set;
 
 /**
  * @author Yuriy Artamonov
  */
-public interface CommandExecutor {
+public class ClasspathWebAppContext extends WebAppContext {
 
-    String NAME = "commandExecutor";
+    public Set<String> publishedClasspathResources;
 
-    Result getStatus();
+    public ClasspathWebAppContext(Set<String> publishedClasspathResources) {
+        this.publishedClasspathResources = publishedClasspathResources;
+    }
 
-    List<Action> getActions();
+    @Override
+    public Resource getResource(String uriInContext) throws MalformedURLException {
+        if (publishedClasspathResources.contains(uriInContext) && getClassLoader() != null) {
+            try {
+                if (uriInContext.startsWith("/"))
+                    uriInContext = uriInContext.substring(1);
 
-    Result execute(Command command);
+                return Resource.newResource(getClassLoader().getResource(uriInContext));
+            } catch (IOException e) {
+                throw new RuntimeException("Could not found published resource in classpath", e);
+            }
+        }
+
+        return super.getResource(uriInContext);
+    }
 }

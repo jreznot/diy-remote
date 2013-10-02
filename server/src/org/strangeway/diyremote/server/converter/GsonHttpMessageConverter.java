@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,7 +23,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server.converter;
+package org.strangeway.diyremote.server.converter;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

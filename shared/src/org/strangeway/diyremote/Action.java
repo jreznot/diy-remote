@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,25 +23,16 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server.sys;
-
-import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.webapp.WebAppContext;
-import org.eclipse.jetty.webapp.WebXmlConfiguration;
-
-import java.io.IOException;
+package org.strangeway.diyremote;
 
 /**
  * @author Yuriy Artamonov
  */
-public class ClasspathWebXmlConfiguration extends WebXmlConfiguration {
+public class Action {
 
-    @Override
-    protected Resource findWebXml(WebAppContext context) throws IOException {
-        Resource webXml = super.findWebXml(context);
-        if ((webXml == null || !webXml.exists()) && context.getClassLoader() != null) {
-            webXml = Resource.newResource(context.getClassLoader().getResource(context.getDescriptor()));
-        }
-        return webXml;
-    }
+    public String name = "";
+
+    public String description = "";
+
+    public String icon = "";
 }

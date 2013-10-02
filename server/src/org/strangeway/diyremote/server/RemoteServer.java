@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,13 +23,13 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server;
+package org.strangeway.diyremote.server;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.strangeway.lazyremote.server.sys.ClasspathWebAppContext;
-import org.strangeway.lazyremote.server.sys.ClasspathWebXmlConfiguration;
+import org.strangeway.diyremote.server.sys.ClasspathWebAppContext;
+import org.strangeway.diyremote.server.sys.ClasspathWebXmlConfiguration;
 
 import java.io.File;
 import java.util.Arrays;
@@ -39,20 +39,20 @@ import java.util.List;
 /**
  * @author Yuriy Artamonov
  */
-public class LazyRemoteServer {
+public class RemoteServer {
 
     private static final List<String> publishedResources = Arrays.asList(
             "/web.xml",
-            "/lazy-remote-spring.xml",
-            "/lazy-remote-web-spring.xml"
+            "/DIY-Remote-spring.xml",
+            "/DIY-Remote-web-spring.xml"
     );
 
     public static void main(String[] args) {
-        File appDir = new File(System.getProperty("user.home"), ".lazy-remote");
+        File appDir = new File(System.getProperty("user.home"), ".DIY-Remote");
         if (!appDir.exists()) {
             boolean success = appDir.mkdirs();
             if (!success) {
-                System.out.print("Could not create .lazy-remote directory");
+                System.out.print("Could not create .DIY-Remote directory");
                 return;
             }
         }

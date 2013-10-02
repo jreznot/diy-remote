@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,16 +23,55 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote;
+package org.strangeway.diyremote.server.executors;
+
+import groovy.lang.Closure;
+import org.apache.commons.lang3.StringUtils;
+import org.strangeway.diyremote.Action;
+import org.strangeway.diyremote.Command;
+import org.strangeway.diyremote.Result;
+import org.strangeway.diyremote.server.CommandExecutor;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Yuriy Artamonov
  */
-public class Action {
+public class GroovyCommandExecutor implements CommandExecutor {
 
-    public String name = "";
+    private Map<Action, Closure<String>> actions = new HashMap<Action, Closure<String>>();
 
-    public String description = "";
+    private Closure<String> statusProvider;
 
-    public String icon = "";
+    public GroovyCommandExecutor() {
+        // load actions from app directory
+    }
+
+    @Override
+    public Result getStatus() {
+        Result result = new Result();
+        result.message = statusProvider.call();
+        return result;
+    }
+
+    @Override
+    public List<Action> getActions() {
+        return new ArrayList<Action>(actions.keySet());
+    }
+
+    @Override
+    public Result execute(Command command) {
+        for (Action a : actions.keySet()) {
+            if (StringUtils.equals(a.name, command.actionId)) {
+                Result r = new Result();
+                r.message = actions.get(a).call();
+                return r;
+            }
+        }
+
+        return new Result();
+    }
 }

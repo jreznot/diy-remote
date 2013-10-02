@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,12 +23,47 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote;
+package org.strangeway.diyremote.server.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.strangeway.diyremote.Action;
+import org.strangeway.diyremote.Command;
+import org.strangeway.diyremote.Result;
+import org.strangeway.diyremote.server.CommandExecutor;
+
+import java.util.List;
 
 /**
  * @author Yuriy Artamonov
  */
-public class Result {
+@Controller
+@RequestMapping("action")
+public class ClientActionController {
 
-    public String message = "";
+    @Autowired
+    private CommandExecutor executor;
+
+    @RequestMapping(value = "list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<Action> list() {
+        return executor.getActions();
+    }
+
+    @RequestMapping(value = "execute",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Result execute(Command command) {
+        return executor.execute(command);
+    }
+
+    @RequestMapping(value = "status", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Result status() {
+        return executor.getStatus();
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Lazy-Remote Contributors
+ * Copyright (c) 2013, DIY-Remote Contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -23,39 +23,25 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.strangeway.lazyremote.server.sys;
+package org.strangeway.diyremote.server.sys;
 
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.webapp.WebXmlConfiguration;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Set;
 
 /**
  * @author Yuriy Artamonov
  */
-public class ClasspathWebAppContext extends WebAppContext {
-
-    public Set<String> publishedClasspathResources;
-
-    public ClasspathWebAppContext(Set<String> publishedClasspathResources) {
-        this.publishedClasspathResources = publishedClasspathResources;
-    }
+public class ClasspathWebXmlConfiguration extends WebXmlConfiguration {
 
     @Override
-    public Resource getResource(String uriInContext) throws MalformedURLException {
-        if (publishedClasspathResources.contains(uriInContext) && getClassLoader() != null) {
-            try {
-                if (uriInContext.startsWith("/"))
-                    uriInContext = uriInContext.substring(1);
-
-                return Resource.newResource(getClassLoader().getResource(uriInContext));
-            } catch (IOException e) {
-                throw new RuntimeException("Could not found published resource in classpath", e);
-            }
+    protected Resource findWebXml(WebAppContext context) throws IOException {
+        Resource webXml = super.findWebXml(context);
+        if ((webXml == null || !webXml.exists()) && context.getClassLoader() != null) {
+            webXml = Resource.newResource(context.getClassLoader().getResource(context.getDescriptor()));
         }
-
-        return super.getResource(uriInContext);
+        return webXml;
     }
 }
