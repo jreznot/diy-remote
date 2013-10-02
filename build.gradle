@@ -13,7 +13,7 @@ buildscript {
 
 allprojects {
     group = 'org.strangeway.lazy-remote'
-    version = '1.0'
+    version = '0.1'
 	
 	repositories {
 	    mavenCentral()
@@ -77,6 +77,7 @@ project(':server') {
 
 		compile 'org.apache.commons:commons-lang3:3.1'
 		compile 'commons-io:commons-io:2.4'
+		compile 'commons-cli:commons-cli:1.2'
 	}
 
     mainClassName = 'org.strangeway.lazyremote.server.LazyRemoteServer'
@@ -103,6 +104,8 @@ project(':integration:vlc') {
     dependencies {
         compile 'org.codehaus.groovy:groovy:2.1.7'
     }
+
+    jar.enabled = false
 
     task scriptsZip(type: Zip) {
        from file('src')
@@ -134,6 +137,8 @@ project(':integration:windows') {
     dependencies {
         compile 'org.codehaus.groovy:groovy:2.1.7'
     }
+
+    jar.enabled = false
 
     task scriptsZip(type: Zip) {
         from file('src')

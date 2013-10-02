@@ -29,7 +29,7 @@
 
 name: 'Shutdown'
 description: 'Shutdown PC'
-icon: 'shutdown.png'
+icon: 'shutdown'
 action: {
     Runtime.getRuntime().exec("shutdown -s")
 }

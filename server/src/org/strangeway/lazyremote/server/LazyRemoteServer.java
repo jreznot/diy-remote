@@ -31,6 +31,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.strangeway.lazyremote.server.sys.ClasspathWebAppContext;
 import org.strangeway.lazyremote.server.sys.ClasspathWebXmlConfiguration;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -47,7 +48,16 @@ public class LazyRemoteServer {
     );
 
     public static void main(String[] args) {
-        // todo move port to properties
+        File appDir = new File(System.getProperty("user.home"), ".lazy-remote");
+        if (!appDir.exists()) {
+            boolean success = appDir.mkdirs();
+            if (!success) {
+                System.out.print("Could not create .lazy-remote directory");
+                return;
+            }
+        }
+
+        // todo move port to CLI parameters
         Server server = new Server(8080);
 
         WebAppContext context = new ClasspathWebAppContext(new HashSet<String>(publishedResources));
