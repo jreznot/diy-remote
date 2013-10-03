@@ -27,10 +27,10 @@
  * @author Yuriy Artamonov
  */
 [
-  name: '',
-  description: '',
-  icon: '',
-  order: 0,
+  name: 'play',
+  description: 'Play',
+  icon: 'play',
+  order: 2,
   action: {
 
   }

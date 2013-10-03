@@ -27,10 +27,10 @@
  * @author Yuriy Artamonov
  */
 [
-  name: '',
-  description: '',
-  icon: '',
-  order: 0,
+  name: 'fullscreen',
+  description: 'Fullscreen',
+  icon: 'fullscreen',
+  order: 4,
   action: {
 
   }

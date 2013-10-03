@@ -30,5 +30,5 @@ package org.strangeway.diyremote;
  */
 public class Command {
 
-    public String actionId = "";
+    public String actionName = "";
 }

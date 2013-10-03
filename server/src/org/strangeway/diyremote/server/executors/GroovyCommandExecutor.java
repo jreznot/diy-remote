@@ -47,7 +47,7 @@ public class GroovyCommandExecutor implements CommandExecutor {
 
     public static final Binding EMPTY_BINDING = new Binding();
 
-    private Map<Action, Closure<String>> actions = new LinkedHashMap<Action, Closure<String>>();
+    private Map<Action, Closure> actions = new LinkedHashMap<Action, Closure>();
     private Closure<String> statusProvider;
 
     public GroovyCommandExecutor() {
@@ -77,6 +77,7 @@ public class GroovyCommandExecutor implements CommandExecutor {
             if ("status.groovy".equals(file.getName())) {
                 ActionContainer ac = loadAction(scriptEngine, file);
                 if (ac != null) {
+                    //noinspection unchecked
                     statusProvider = ac.closure;
                 }
             } else if (file.getName().endsWith(".groovy")) {
@@ -152,9 +153,12 @@ public class GroovyCommandExecutor implements CommandExecutor {
     @Override
     public Result execute(Command command) {
         for (Action a : actions.keySet()) {
-            if (StringUtils.equals(a.name, command.actionId)) {
+            if (StringUtils.equals(a.name, command.actionName)) {
                 Result r = new Result();
-                r.message = actions.get(a).call();
+                Object callResult = actions.get(a).call();
+                if (callResult instanceof String) {
+                    r.message = (String) callResult;
+                }
                 return r;
             }
         }
@@ -168,6 +172,6 @@ public class GroovyCommandExecutor implements CommandExecutor {
 
         public int order = 0;
 
-        public Closure<String> closure;
+        public Closure closure;
     }
 }

@@ -28,7 +28,9 @@ package org.strangeway.diyremote.server.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.strangeway.diyremote.Action;
 import org.strangeway.diyremote.Command;
@@ -50,23 +52,32 @@ public class ClientActionController {
     @RequestMapping(value = "list", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Action> list() {
+        System.out.println("[Client] get actions");
+
         return executor.getActions();
     }
 
     @RequestMapping(value = "execute",
+            method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Result execute(Command command) {
+    public Result execute(@RequestBody Command command) {
+        System.out.println("[Client] execute command: " + command.actionName);
+
         Result result = executor.execute(command);
         if (result.message == null)
             result.message = "";
         return result;
     }
 
-    @RequestMapping(value = "status", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "status",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Result status() {
+        System.out.println("[Client] update status");
+
         Result result = executor.getStatus();
         if (result.message == null)
             result.message = "";

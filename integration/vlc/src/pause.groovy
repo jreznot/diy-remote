@@ -27,10 +27,10 @@
  * @author Yuriy Artamonov
  */
 [
-  name: '',
-  description: '',
-  icon: '',
-  order: 0,
+  name: 'pause',
+  description: 'Pause',
+  icon: 'pause',
+  order: 5,
   action: {
 
   }

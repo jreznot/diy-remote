@@ -27,10 +27,10 @@
  * @author Yuriy Artamonov
  */
 [
-  name: '',
-  description: '',
-  icon: '',
-  order: 0,
+  name: 'previous',
+  description: 'Previous',
+  icon: 'previous',
+  order: 1,
   action: {
 
   }

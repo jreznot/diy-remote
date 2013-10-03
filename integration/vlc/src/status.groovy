@@ -27,8 +27,8 @@
  * @author Yuriy Artamonov
  */
 [
-  name: '',
-  description: '',
+  name: 'status',
+  description: 'Status',
   icon: '',
   order: 0,
   action: {

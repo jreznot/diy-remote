@@ -27,10 +27,10 @@
  * @author Yuriy Artamonov
  */
 [
-  name: '',
-  description: '',
-  icon: '',
-  order: 0,
+  name: 'volume_up',
+  description: 'Volume up',
+  icon: 'volume_up',
+  order: 6,
   action: {
 
   }

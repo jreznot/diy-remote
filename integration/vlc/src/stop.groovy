@@ -27,10 +27,10 @@
  * @author Yuriy Artamonov
  */
 [
-  name: '',
-  description: '',
-  icon: '',
-  order: 0,
+  name: 'stop',
+  description: 'Stop',
+  icon: 'stop',
+  order: 8,
   action: {
 
   }

@@ -25,14 +25,6 @@
   -->
 
 <resources>
-    <string name="app.name">DIY Remote</string>
-    <string name="app.description">Hand-made</string>
-
-    <string name="preferences.connection">Connection</string>
-
-    <string name="preferences.connection.url">URL</string>
-    <string name="preferences">Preferences</string>
-    <string name="preferences.connection.url.summary">Set connection URL of your PC</string>
-
-    <string name="main.startButton.label">Start</string>
+    <color name="buttonColor">#336C9F</color>
+    <color name="buttonPressedColor">#ff52adff</color>
 </resources>
