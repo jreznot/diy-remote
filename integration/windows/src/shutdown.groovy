@@ -26,10 +26,12 @@
 /**
  * @author Yuriy Artamonov
  */
-
-name: 'Shutdown'
-description: 'Shutdown PC'
-icon: 'shutdown'
-action: {
-    Runtime.getRuntime().exec("shutdown -s")
-}
+[
+  name: 'Shutdown',
+  description: 'Shutdown PC',
+  icon: 'shutdown',
+  order: 0,
+  action: {
+      Runtime.getRuntime().exec("shutdown -s")
+  }
+]

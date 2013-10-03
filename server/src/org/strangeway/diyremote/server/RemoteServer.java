@@ -43,16 +43,16 @@ public class RemoteServer {
 
     private static final List<String> publishedResources = Arrays.asList(
             "/web.xml",
-            "/DIY-Remote-spring.xml",
-            "/DIY-Remote-web-spring.xml"
+            "/diy-remote-spring.xml",
+            "/diy-remote-web-spring.xml"
     );
 
     public static void main(String[] args) {
-        File appDir = new File(System.getProperty("user.home"), ".DIY-Remote");
+        File appDir = new File(System.getProperty("user.home"), ".diy-remote");
         if (!appDir.exists()) {
             boolean success = appDir.mkdirs();
             if (!success) {
-                System.out.print("Could not create .DIY-Remote directory");
+                System.out.print("Could not create .diy-remote directory");
                 return;
             }
         }
@@ -77,6 +77,7 @@ public class RemoteServer {
         } catch (Exception e) {
             if (!(e instanceof InterruptedException)) {
                 System.out.print("Server stopped\n" + e.getMessage());
+                e.printStackTrace(System.out);
             }
         }
     }

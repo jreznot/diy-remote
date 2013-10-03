@@ -58,12 +58,18 @@ public class ClientActionController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Result execute(Command command) {
-        return executor.execute(command);
+        Result result = executor.execute(command);
+        if (result.message == null)
+            result.message = "";
+        return result;
     }
 
     @RequestMapping(value = "status", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Result status() {
-        return executor.getStatus();
+        Result result = executor.getStatus();
+        if (result.message == null)
+            result.message = "";
+        return result;
     }
 }

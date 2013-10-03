@@ -26,10 +26,12 @@
 /**
  * @author Yuriy Artamonov
  */
+[
+  name: '',
+  description: '',
+  icon: '',
+  order: 0,
+  action: {
 
-name: ''
-description: ''
-icon: ''
-action: {
-
-}
+  }
+]

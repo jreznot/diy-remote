@@ -25,29 +25,116 @@
 
 package org.strangeway.diyremote.server.executors;
 
+import groovy.lang.Binding;
 import groovy.lang.Closure;
+import groovy.util.GroovyScriptEngine;
+import groovy.util.ResourceException;
+import groovy.util.ScriptException;
 import org.apache.commons.lang3.StringUtils;
 import org.strangeway.diyremote.Action;
 import org.strangeway.diyremote.Command;
 import org.strangeway.diyremote.Result;
 import org.strangeway.diyremote.server.CommandExecutor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @author Yuriy Artamonov
  */
 public class GroovyCommandExecutor implements CommandExecutor {
 
-    private Map<Action, Closure<String>> actions = new HashMap<Action, Closure<String>>();
+    public static final Binding EMPTY_BINDING = new Binding();
 
+    private Map<Action, Closure<String>> actions = new LinkedHashMap<Action, Closure<String>>();
     private Closure<String> statusProvider;
 
     public GroovyCommandExecutor() {
-        // load actions from app directory
+        // load actions from app/scripts directory
+        File appDir = new File(System.getProperty("user.home"), ".diy-remote");
+        File scriptsDir = new File(appDir, "scripts");
+        if (scriptsDir.exists() && scriptsDir.isDirectory()) {
+            File[] files = scriptsDir.listFiles();
+            if (files != null) {
+                loadActions(scriptsDir, files);
+            }
+        }
+    }
+
+    private void loadActions(File scriptsDir, File[] files) {
+        GroovyScriptEngine scriptEngine;
+        try {
+            scriptEngine = new GroovyScriptEngine(scriptsDir.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.print("Unable to initialize groovy script engine\n" + e.getMessage());
+            e.printStackTrace(System.out);
+            return;
+        }
+
+        List<ActionContainer> actionsList = new ArrayList<ActionContainer>();
+        for (File file : files) {
+            if ("status.groovy".equals(file.getName())) {
+                ActionContainer ac = loadAction(scriptEngine, file);
+                if (ac != null) {
+                    statusProvider = ac.closure;
+                }
+            } else if (file.getName().endsWith(".groovy")) {
+                ActionContainer ac = loadAction(scriptEngine, file);
+                if (ac != null) {
+                    actionsList.add(ac);
+                }
+            }
+        }
+
+        Collections.sort(actionsList, new Comparator<ActionContainer>() {
+            @Override
+            public int compare(ActionContainer o1, ActionContainer o2) {
+                if (o1.order == o2.order)
+                    return 0;
+                if (o1.order > o2.order)
+                    return 1;
+                return -1;
+            }
+        });
+
+        for (ActionContainer ac : actionsList) {
+            actions.put(ac.action, ac.closure);
+        }
+    }
+
+    private ActionContainer loadAction(GroovyScriptEngine scriptEngine, File file) {
+        // load action
+        try {
+            Object actionDefinition = scriptEngine.run(file.getName(), EMPTY_BINDING);
+            if (actionDefinition instanceof Map) {
+                //noinspection unchecked
+                Map<String, Object> definitionMap = (Map<String, Object>) actionDefinition;
+                ActionContainer ac = new ActionContainer();
+
+                Action a = new Action();
+                a.name = (String) definitionMap.get("name");
+                a.description = (String) definitionMap.get("description");
+                a.icon = (String) definitionMap.get("icon");
+
+                ac.action = a;
+
+                ac.order = (Integer) definitionMap.get("order");
+                //noinspection unchecked
+                ac.closure = (Closure<String>) definitionMap.get("action");
+
+                return ac;
+            } else {
+                System.out.print("Incorrect action definition: " + file.getName());
+            }
+        } catch (ResourceException e) {
+            System.out.print("Unable to load action " + file.getName());
+            e.printStackTrace(System.out);
+        } catch (ScriptException e) {
+            System.out.print("Unable to load action " + file.getName());
+            e.printStackTrace(System.out);
+        }
+        return null;
     }
 
     @Override
@@ -73,5 +160,14 @@ public class GroovyCommandExecutor implements CommandExecutor {
         }
 
         return new Result();
+    }
+
+    private static class ActionContainer {
+
+        public Action action;
+
+        public int order = 0;
+
+        public Closure<String> closure;
     }
 }
