@@ -23,6 +23,8 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import org.strangeway.diyremote.scripting.HttpUtils
+
 /**
  * @author Yuriy Artamonov
  */
@@ -32,6 +34,18 @@
   icon: 'volume_down',
   order: 9,
   action: {
+      def statusXmlContent = HttpUtils.get("http://localhost:8080/requests/status.xml", null, "admin")
+      def statusXml = new XmlParser().parseText(statusXmlContent)
 
+      String volume = statusXml.volume.text()
+      int volumeValue = Integer.parseInt(volume)
+
+      volumeValue -= 10
+      if (volumeValue < 0)
+          volumeValue = 0
+
+      HttpUtils.get("http://localhost:8080/requests/status.xml?command=volume&val=${volumeValue}", null, "admin")
+
+      return 'OK'
   }
 ]

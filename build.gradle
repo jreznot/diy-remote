@@ -86,6 +86,8 @@ project(':scripting') {
         compile 'org.codehaus.groovy:groovy-xml:2.1.7'
         compile 'org.codehaus.groovy:groovy-json:2.1.7'
         compile 'org.codehaus.groovy:groovy-templates:2.1.7'
+
+        compile 'org.apache.httpcomponents:httpclient:4.3'
     }
 }
 

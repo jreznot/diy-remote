@@ -23,6 +23,8 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import org.strangeway.diyremote.scripting.HttpUtils
+
 /**
  * @author Yuriy Artamonov
  */
@@ -32,6 +34,8 @@
   icon: 'next',
   order: 3,
   action: {
+      HttpUtils.get("http://localhost:8080/requests/status.xml?command=pl_next", null, "admin")
 
+      return 'OK'
   }
 ]
