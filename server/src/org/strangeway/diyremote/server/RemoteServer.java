@@ -25,6 +25,7 @@
 
 package org.strangeway.diyremote.server;
 
+import org.apache.commons.cli.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -57,9 +58,47 @@ public class RemoteServer {
             }
         }
 
-        // todo move port to CLI parameters
-        Server server = new Server(8080);
+        Options cliOptions = new Options();
+        //noinspection AccessStaticViaInstance
+        Option portOption = OptionBuilder.withArgName("port number")
+                .hasArgs()
+                .isRequired(false)
+                .withDescription("Server port, 8080 by default")
+                .create("port");
+        cliOptions.addOption(portOption);
+        cliOptions.addOption("help", false, "Print help");
 
+        CommandLineParser parser = new PosixParser();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine cmd;
+        try {
+            // parse the command line arguments
+            cmd = parser.parse(cliOptions, args);
+        } catch (ParseException exp) {
+            // something went wrong
+            System.out.println("DIY Remote - Simple server for remote PC control");
+            formatter.printHelp("diy-remote", cliOptions);
+            return;
+        }
+
+        if (cmd.hasOption("help")) {
+            System.out.println("DIY Remote - Simple server for remote PC control");
+            formatter.printHelp("diy-remote", cliOptions);
+        } else {
+            int port = 8080;
+            if (cmd.hasOption("port")) {
+                try {
+                    port = Integer.parseInt(cmd.getOptionValue("port"));
+                } catch (NumberFormatException e) {
+                    System.out.println("Unable to parse port number, used default 8080");
+                }
+            }
+
+            startServer(port);
+        }
+    }
+
+    private static void startServer(int port) {
         WebAppContext context = new ClasspathWebAppContext(new HashSet<String>(publishedResources));
 
         context.setConfigurations(new Configuration[]{new ClasspathWebXmlConfiguration()});
@@ -69,6 +108,7 @@ public class RemoteServer {
         context.setParentLoaderPriority(true);
         context.setClassLoader(Thread.currentThread().getContextClassLoader());
 
+        Server server = new Server(port);
         server.setHandler(context);
 
         try {

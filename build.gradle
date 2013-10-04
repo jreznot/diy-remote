@@ -64,6 +64,31 @@ project(':shared') {
 	}
 }
 
+project(':scripting') {
+    apply plugin: 'groovy'
+    apply plugin: 'idea'
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+            resources {
+                srcDir 'src'
+            }
+        }
+    }
+
+    dependencies {
+        compile 'org.codehaus.groovy:groovy:2.1.7'
+        compile 'org.codehaus.groovy:groovy-ant:2.1.7'
+        compile 'org.codehaus.groovy:groovy-sql:2.1.7'
+        compile 'org.codehaus.groovy:groovy-xml:2.1.7'
+        compile 'org.codehaus.groovy:groovy-json:2.1.7'
+        compile 'org.codehaus.groovy:groovy-templates:2.1.7'
+    }
+}
+
 project(':server') {
 	apply plugin: 'java'
 	apply plugin: 'idea'
@@ -90,7 +115,8 @@ project(':server') {
 
 	dependencies {
 		compile project(':shared')
-		
+		compile project(':scripting')
+
 		testCompile 'org.testng:testng:6.8'
 
         compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
@@ -98,14 +124,13 @@ project(':server') {
 		compile 'org.eclipse.jetty:jetty-webapp:8.1.13.v20130916'
 		compile 'com.google.code.gson:gson:2.2.4'
 
-		compile 'org.codehaus.groovy:groovy:2.1.7'
-
 		compile 'org.apache.commons:commons-lang3:3.1'
 		compile 'commons-io:commons-io:2.4'
 		compile 'commons-cli:commons-cli:1.2'
 	}
 
-    mainClassName = 'org.strangeway.diyremote.server.LazyRemoteServer'
+    applicationName = 'diy-remote'
+    mainClassName = 'org.strangeway.diyremote.server.RemoteServer'
 }
 
 project(':integration:vlc') {
@@ -127,7 +152,7 @@ project(':integration:vlc') {
     }
 
     dependencies {
-        compile 'org.codehaus.groovy:groovy:2.1.7'
+        compile project(':scripting')
     }
 
     jar.enabled = false
@@ -160,7 +185,7 @@ project(':integration:windows') {
     }
 
     dependencies {
-        compile 'org.codehaus.groovy:groovy:2.1.7'
+        compile project(':scripting')
     }
 
     jar.enabled = false

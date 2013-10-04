@@ -32,6 +32,6 @@
   icon: 'shutdown',
   order: 7,
   action: {
-      Runtime.getRuntime().exec("shutdown -s")
+      "shutdown -s".execute()
   }
 ]

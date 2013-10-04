@@ -25,4 +25,4 @@
 
 rootProject.name = 'diy-remote'
 
-include 'shared', 'server', 'client', 'integration:vlc', 'integration:windows'
+include 'shared', 'server', 'client', 'scripting', 'integration:vlc', 'integration:windows'

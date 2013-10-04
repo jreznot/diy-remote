@@ -65,7 +65,8 @@ public class GroovyCommandExecutor implements CommandExecutor {
     private void loadActions(File scriptsDir, File[] files) {
         GroovyScriptEngine scriptEngine;
         try {
-            scriptEngine = new GroovyScriptEngine(scriptsDir.getAbsolutePath());
+            scriptEngine = new GroovyScriptEngine(scriptsDir.getAbsolutePath(),
+                    Thread.currentThread().getContextClassLoader());
         } catch (IOException e) {
             System.out.print("Unable to initialize groovy script engine\n" + e.getMessage());
             e.printStackTrace(System.out);
