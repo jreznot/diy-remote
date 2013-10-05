@@ -269,3 +269,18 @@ idea {
         }
     }
 }
+
+task release(dependsOn: [
+        ':server:assemble',
+        ':client:assemble',
+
+        ':server:distZip',
+        ':integration:vlc:scriptsZip',
+        ':integration:windows:scriptsZip'], type: Copy) {
+
+    from file('server/build/distributions')
+    from file('client/build/apk/dyi-remote-release.apk')
+    from file('integration/vlc/build/distributions')
+    from file('integration/windows/build/distributions')
+    into file('release')
+}
