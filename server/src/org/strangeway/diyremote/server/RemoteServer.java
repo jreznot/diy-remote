@@ -63,7 +63,7 @@ public class RemoteServer {
         Option portOption = OptionBuilder.withArgName("port number")
                 .hasArgs()
                 .isRequired(false)
-                .withDescription("Server port, 8080 by default")
+                .withDescription("Server port, 9090 by default")
                 .create("port");
         cliOptions.addOption(portOption);
         cliOptions.addOption("help", false, "Print help");
@@ -85,12 +85,12 @@ public class RemoteServer {
             System.out.println("DIY Remote - Simple server for remote PC control");
             formatter.printHelp("diy-remote", cliOptions);
         } else {
-            int port = 80;
+            int port = 9090;
             if (cmd.hasOption("port")) {
                 try {
                     port = Integer.parseInt(cmd.getOptionValue("port"));
                 } catch (NumberFormatException e) {
-                    System.out.println("Unable to parse port number, used default 80");
+                    System.out.println("Unable to parse port number, used default 9090");
                 }
             }
 
