@@ -25,43 +25,43 @@
 
 buildscript {
     repositories {
-		mavenCentral()
+        mavenCentral()
         maven {
             url 'https://raw.github.com/rodionmoiseev/maven-repo/master/repo/releases'
         }
     }
     dependencies {
         classpath 'org.rodion.gradle:idea-utils-plugin:0.1'
-		classpath 'com.android.tools.build:gradle:0.5.7'
+        classpath 'com.android.tools.build:gradle:0.5.7'
     }
 }
 
 allprojects {
     group = 'org.strangeway.diy-remote'
     version = '0.1'
-	
-	repositories {
-	    mavenCentral()
-	}
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 apply plugin: 'idea'
 apply plugin: 'idea-utils'
 
 project(':shared') {
-	apply plugin: 'java'
-	apply plugin: 'idea'
-	
-	sourceSets {
-	    main {
-	        java {
-	            srcDir 'src'
-	        }
-	        resources {
-	            srcDir 'src'
-	        }
-	    }
-	}
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+            resources {
+                srcDir 'src'
+            }
+        }
+    }
 }
 
 project(':scripting') {
@@ -92,9 +92,9 @@ project(':scripting') {
 }
 
 project(':server') {
-	apply plugin: 'java'
-	apply plugin: 'idea'
+    apply plugin: 'java'
     apply plugin: 'application'
+    apply plugin: 'idea'
 
     sourceSets {
         main {
@@ -115,21 +115,21 @@ project(':server') {
         }
     }
 
-	dependencies {
-		compile project(':shared')
-		compile project(':scripting')
+    dependencies {
+        compile project(':shared')
+        compile project(':scripting')
 
-		testCompile 'org.testng:testng:6.8'
+        testCompile 'org.testng:testng:6.8'
 
         compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
-		compile 'org.eclipse.jetty:jetty-server:8.1.13.v20130916'
-		compile 'org.eclipse.jetty:jetty-webapp:8.1.13.v20130916'
-		compile 'com.google.code.gson:gson:2.2.4'
+        compile 'org.eclipse.jetty:jetty-server:8.1.13.v20130916'
+        compile 'org.eclipse.jetty:jetty-webapp:8.1.13.v20130916'
+        compile 'com.google.code.gson:gson:2.2.4'
 
-		compile 'org.apache.commons:commons-lang3:3.1'
-		compile 'commons-io:commons-io:2.4'
-		compile 'commons-cli:commons-cli:1.2'
-	}
+        compile 'org.apache.commons:commons-lang3:3.1'
+        compile 'commons-io:commons-io:2.4'
+        compile 'commons-cli:commons-cli:1.2'
+    }
 
     applicationName = 'diy-remote'
     mainClassName = 'org.strangeway.diyremote.server.RemoteServer'
@@ -160,7 +160,7 @@ project(':integration:vlc') {
     jar.enabled = false
 
     task scriptsZip(type: Zip) {
-       from file('src')
+        from file('src')
     }
 
     artifacts {
@@ -202,42 +202,42 @@ project(':integration:windows') {
 }
 
 project(':client') {
-	apply plugin: 'android'
-	apply plugin: 'idea'
+    apply plugin: 'android'
+    apply plugin: 'idea'
 
-	dependencies {
-		compile project(':shared')
-		
-		compile 'com.google.code.gson:gson:2.2.4'
-	}
+    dependencies {
+        compile project(':shared')
+
+        compile 'com.google.code.gson:gson:2.2.4'
+    }
 
     project.archivesBaseName = 'dyi-remote'
-	
-	android {
-		compileSdkVersion 15
-		buildToolsVersion '18.0.1'
-		
-		sourceSets {
-	        main {
-	            manifest.srcFile 'AndroidManifest.xml'
-	            java.srcDirs = ['src']
-	            resources.srcDirs = ['src']
-	            aidl.srcDirs = ['src']
-	            renderscript.srcDirs = ['src']
-	            res.srcDirs = ['res']
-	            assets.srcDirs = ['assets']
-	        }
 
-	        instrumentTest.setRoot('test')
-	    }
-	}
-	
-	idea {
-		module {
-			sourceDirs += file('src')
-			testSourceDirs += file('test')
-		}
-	}
+    android {
+        compileSdkVersion 15
+        buildToolsVersion '18.0.1'
+
+        sourceSets {
+            main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDirs = ['src']
+                resources.srcDirs = ['src']
+                aidl.srcDirs = ['src']
+                renderscript.srcDirs = ['src']
+                res.srcDirs = ['res']
+                assets.srcDirs = ['assets']
+            }
+
+            instrumentTest.setRoot('test')
+        }
+    }
+
+    idea {
+        module {
+            sourceDirs += file('src')
+            testSourceDirs += file('test')
+        }
+    }
 }
 
 idea {
