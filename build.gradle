@@ -231,22 +231,24 @@ project(':client') {
             instrumentTest.setRoot('test')
         }
 
-        signingConfigs {
-            release {
-                storeFile new File(new File(System.getProperty("user.home"), ".android"), "release.keystore")
-                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
-                keyAlias "android"
-                keyPassword System.getenv("ANDROID_RELEASE_PASSWORD")
-            }
-        }
+		if (rootProject.hasProperty('android.signed')) {
+	        signingConfigs {
+	            release {
+	                storeFile new File(new File(System.getProperty("user.home"), ".android"), "release.keystore")
+	                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+	                keyAlias "android"
+	                keyPassword System.getenv("ANDROID_RELEASE_PASSWORD")
+	            }
+	        }
 
-        buildTypes {
-            release {
-                debuggable false
-                jniDebugBuild false
-                signingConfig signingConfigs.release
-            }
-        }
+	        buildTypes {
+	            release {
+	                debuggable false
+	                jniDebugBuild false
+	                signingConfig signingConfigs.release
+	            }
+	        }
+		}
     }
 
     idea {
