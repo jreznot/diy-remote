@@ -40,7 +40,7 @@ public class ClasspathWebXmlConfiguration extends WebXmlConfiguration {
     protected Resource findWebXml(WebAppContext context) throws IOException {
         Resource webXml = super.findWebXml(context);
         if ((webXml == null || !webXml.exists()) && context.getClassLoader() != null) {
-            webXml = Resource.newResource(context.getClassLoader().getResource(context.getDescriptor()));
+            webXml = context.getResource("/" + context.getDescriptor());
         }
         return webXml;
     }

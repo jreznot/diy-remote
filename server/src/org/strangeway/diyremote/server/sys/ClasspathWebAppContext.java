@@ -28,8 +28,8 @@ package org.strangeway.diyremote.server.sys;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Set;
 
 /**
@@ -46,14 +46,15 @@ public class ClasspathWebAppContext extends WebAppContext {
     @Override
     public Resource getResource(String uriInContext) throws MalformedURLException {
         if (publishedClasspathResources.contains(uriInContext) && getClassLoader() != null) {
-            try {
-                if (uriInContext.startsWith("/"))
-                    uriInContext = uriInContext.substring(1);
+            if (uriInContext.startsWith("/"))
+                uriInContext = uriInContext.substring(1);
 
-                return Resource.newResource(getClassLoader().getResource(uriInContext));
-            } catch (IOException e) {
-                throw new RuntimeException("Could not found published resource in classpath", e);
+            URL resource = getClassLoader().getResource(uriInContext);
+            if (resource == null) {
+                throw new RuntimeException("Could not found published resource in classpath");
             }
+
+            return Resource.newResource(resource);
         }
 
         return super.getResource(uriInContext);

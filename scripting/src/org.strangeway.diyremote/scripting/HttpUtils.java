@@ -76,7 +76,7 @@ public class HttpUtils {
         return contentBuilder.toString();
     }
 
-    private static  void processRequest(HttpGet request, HttpClient client, StringBuilder contentBuilder) {
+    private static void processRequest(HttpGet request, HttpClient client, StringBuilder contentBuilder) {
         try {
             HttpResponse result = client.execute(request);
             if (result.getStatusLine().getStatusCode() == 200) {

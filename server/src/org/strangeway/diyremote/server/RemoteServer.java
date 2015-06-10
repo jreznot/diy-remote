@@ -60,15 +60,16 @@ public class RemoteServer {
 
         Options cliOptions = new Options();
         //noinspection AccessStaticViaInstance
-        Option portOption = OptionBuilder.withArgName("port number")
+        Option portOption = Option.builder().argName("port number")
+                .longOpt("port")
                 .hasArgs()
-                .isRequired(false)
-                .withDescription("Server port, 9090 by default")
-                .create("port");
+                .desc("Server port, 9090 by default")
+                .optionalArg(true)
+                .build();
         cliOptions.addOption(portOption);
         cliOptions.addOption("help", false, "Print help");
 
-        CommandLineParser parser = new PosixParser();
+        CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd;
         try {

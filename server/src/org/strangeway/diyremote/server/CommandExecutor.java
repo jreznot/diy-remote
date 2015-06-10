@@ -36,8 +36,6 @@ import java.util.List;
  */
 public interface CommandExecutor {
 
-    String NAME = "commandExecutor";
-
     Result getStatus();
 
     List<Action> getActions();

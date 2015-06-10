@@ -25,13 +25,10 @@
 
 package org.strangeway.diyremote.server.converter;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.Charset;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -41,11 +38,12 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.Assert;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
 
 /**
  * @author Yuriy Artamonov
@@ -62,10 +60,6 @@ public class GsonHttpMessageConverter extends AbstractHttpMessageConverter<Objec
 
     public GsonHttpMessageConverter() {
         this(new Gson());
-    }
-
-    public GsonHttpMessageConverter(boolean serializeNulls) {
-        this(serializeNulls ? new GsonBuilder().serializeNulls().create() : new Gson());
     }
 
     public GsonHttpMessageConverter(Gson gson) {
